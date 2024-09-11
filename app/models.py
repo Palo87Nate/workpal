@@ -2,17 +2,18 @@
 
 import datetime
 import uuid
-from sqlalchemy import Column, String, DateTime
+from extensions import db
 
+Base = db.Model
 class BaseModel(Base):
     """The BaseModel class from which future classes will be derived"""
     __abstract__ = True
 
     # Define the 'id' column as a string with a maximum length of 60 characters, 
     # set it as the primary key, and assign a default value using uuid.uuid4()
-    id = Column(String(60), primary_key=True, default=lambda: str(uuid.uuid4()))
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    id = db.Column(db.String(60), primary_key=True, default=lambda: str(uuid.uuid4()))
+    created_at = db.Column(db.DateTime, default=db.datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=db.datetime.utcnow, onupdate=db.datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
@@ -36,15 +37,12 @@ class BaseModel(Base):
         return new_dict
     
     def save(self, session):
-        """updates the attribute 'updated_at' with the current datetime and commits the session"""
-        session = Session
-        
-        self.updated_at = datetime.utcnow()
-        session.add(self)
-        session.commit()
+        """updates the attribute 'updated_at' with the current datetime and commits the session"""     
+        self.updated_at = db.datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
 
     def delete(self, session):
         """delete the current instance from the storage and commits the session"""
-        session = Session
-        session.delete(self)
-        session.commit()
+        db.session.delete(self)
+        db.session.commit()
