@@ -46,3 +46,13 @@ class BaseModel(Base):
         """delete the current instance from the storage and commits the session"""
         db.session.delete(self)
         db.session.commit()
+
+class Employee(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+
+class Attendance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
+    clock_in_time = db.Column(db.DateTime, nullable=True)
+    clock_out_time = db.Column(db.DateTime, nullable=True)
