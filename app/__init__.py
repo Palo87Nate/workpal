@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from flask import Flask
 from .config import Config
 from .extensions import *
@@ -11,7 +13,6 @@ def create_app():
     app.register_blueprint(api_blueprint)
 
     # Create tables before the first request
-    @app.before_first_request
     def create_tables():
         db.create_all()
 

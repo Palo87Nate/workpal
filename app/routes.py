@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from flask import Blueprint, request, jsonify
 from .controllers import clock_in_employee, clock_out_employee, get_employee_attendance
 

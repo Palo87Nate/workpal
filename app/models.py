@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-import datetime
+from datetime import datetime
 import uuid
-from extensions import db
+from .extensions import db
 
 Base = db.Model
 class BaseModel(Base):
@@ -12,8 +12,8 @@ class BaseModel(Base):
     # Define the 'id' column as a string with a maximum length of 60 characters, 
     # set it as the primary key, and assign a default value using uuid.uuid4()
     id = db.Column(db.String(60), primary_key=True, default=lambda: str(uuid.uuid4()))
-    created_at = db.Column(db.DateTime, default=db.datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=db.datetime.utcnow, onupdate=db.datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
