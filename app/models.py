@@ -3,6 +3,7 @@
 from datetime import datetime
 import uuid
 from .extensions import db
+from mongoengine import Document, ReferenceField, FileField, connect
 
 Base = db.Model
 class BaseModel(Base):
@@ -49,7 +50,7 @@ class BaseModel(Base):
 
 class Employee(db.Model):
     __tablename__ = 'employees'
-    
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
 
@@ -65,3 +66,14 @@ class Candidate(db.Model):
     last_name = db.Column(db.String(100), nullable=False)
     position = db.Column(db.String(100), nullable=False)
     experience = db.Column(db.Float, nullable=False)
+
+# MongoEngine Setup
+connect('files_db')
+
+class Documents(Document):
+    candidate_id = ReferenceField(Candidate)
+    resume = FileField()
+    national_id_copy = FileField()
+    photo = FileField()
+    application_letter = FileField()
+    degree_copy = FileField()
