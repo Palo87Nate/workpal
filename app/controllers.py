@@ -1,5 +1,5 @@
 from datetime import datetime
-#from .models import *
+from .models import *
 from .extensions import db
 
 def clock_in_employee(employee_id):
