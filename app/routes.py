@@ -34,3 +34,8 @@ def create_candidate():
     data = request.get_json()
     response, status_code = create_candidate_controller(data)
     return jsonify(response), status_code
+
+@api_blueprint.route('/candidates/<int:id>', methods=['GET'])
+def get_candidate(id):
+    response = get_candidate_controller(id)
+    return jsonify(response)
