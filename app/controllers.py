@@ -82,3 +82,27 @@ def upload_documents_controller(candidate_id):
 
     documents.save()
     return {'message': 'Documents uploaded successfully'}, 201
+
+def download_document_controller(doc_id, file_type):
+    documents = Documents.objects.get(id=doc_id)
+
+    file_data = None
+    if file_type == 'resume':
+        file_data = documents.resume
+    elif file_type == 'national_id_copy':
+        file_data = documents.national_id_copy
+    elif file_type == 'photo':
+        file_data = documents.photo
+    elif file_type == 'application_letter':
+        file_data = documents.application_letter
+    elif file_type == 'degree_copy':
+        file_data = documents.degree_copy
+
+    if not file_data:
+        return {'message': 'File not found'}, 404
+
+    return send_file(
+        io.BytesIO(file_data.read()),
+        download_name=f"{file_type}.pdf" if file_type != 'photo' else f"{file_type}.jpeg",
+        as_attachment=True
+    )
