@@ -60,3 +60,25 @@ def get_candidate_controller(id):
         'role_applied_for': candidate.position,
         'experience_years': candidate.experience
     }
+
+def upload_documents_controller(candidate_id):
+    candidate = Candidate.query.get_or_404(candidate_id)
+    documents = Documents(candidate_id=candidate.id)
+
+    if 'resume' in request.files:
+        documents.resume.put(request.files['resume'], content_type='application/pdf')
+
+    if 'national_id_copy' in request.files:
+        documents.national_id_copy.put(request.files['national_id_copy'], content_type='image/jpeg')
+
+    if 'photo' in request.files:
+        documents.photo.put(request.files['photo'], content_type='image/jpeg')
+
+    if 'application_letter' in request.files:
+        documents.application_letter.put(request.files['application_letter'], content_type='application/pdf')
+
+    if 'degree_copy' in request.files:
+        documents.degree_copy.put(request.files['degree_copy'], content_type='application/pdf')
+
+    documents.save()
+    return {'message': 'Documents uploaded successfully'}, 201
