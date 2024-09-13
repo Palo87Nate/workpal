@@ -50,3 +50,13 @@ def create_candidate_controller(data):
     db.session.add(candidate)
     db.session.commit()
     return {'message': 'Candidate created successfully'}, 201
+
+def get_candidate_controller(id):
+    candidate = Candidate.query.get_or_404(id)
+    return {
+        'id': candidate.id,
+        'first_name': candidate.first_name,
+        'last_name': candidate.last_name,
+        'role_applied_for': candidate.position,
+        'experience_years': candidate.experience
+    }
