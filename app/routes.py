@@ -44,3 +44,10 @@ def get_candidate(id):
 def upload_documents(candidate_id):
     response, status_code = upload_documents_controller(candidate_id)
     return jsonify(response), status_code
+
+@api_blueprint.route('/documents/<string:doc_id>/<string:file_type>', methods=['GET'])
+def download_document(doc_id, file_type):
+    response = download_document_controller(doc_id, file_type)
+    if isinstance(response, dict):  # Handle error messages
+        return jsonify(response), 404
+    return response
