@@ -39,3 +39,8 @@ def create_candidate():
 def get_candidate(id):
     response = get_candidate_controller(id)
     return jsonify(response)
+
+@api_blueprint.route('/documents/upload/<int:candidate_id>', methods=['POST'])
+def upload_documents(candidate_id):
+    response, status_code = upload_documents_controller(candidate_id)
+    return jsonify(response), status_code
