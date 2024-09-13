@@ -39,3 +39,14 @@ def get_employee_attendance(employee_id):
         "clock_in": record.clock_in_time,
         "clock_out": record.clock_out_time
     } for record in records]
+
+def create_candidate_controller(data):
+    candidate = Candidate(
+        first_name=data['first_name'],
+        last_name=data['last_name'],
+        position=data['position'],
+        experience=data['experience']
+    )
+    db.session.add(candidate)
+    db.session.commit()
+    return {'message': 'Candidate created successfully'}, 201
