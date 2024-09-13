@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from flask import Blueprint, request, jsonify
-from .controllers import clock_in_employee, clock_out_employee, get_employee_attendance
+from .controllers import *
 
 api_blueprint = Blueprint('api', __name__)
 
@@ -27,4 +27,10 @@ def clock_out():
 def get_attendance(employee_id):
     # Call controller function to get attendance records
     response, status_code = get_employee_attendance(employee_id)
+    return jsonify(response), status_code
+
+@api_blueprint.route('/candidates', methods=['POST'])
+def create_candidate():
+    data = request.get_json()
+    response, status_code = create_candidate_controller(data)
     return jsonify(response), status_code
