@@ -71,7 +71,7 @@ class Candidate(BaseModel):
 connect('files_db')
 
 class Documents(Document):
-    candidate_id = ReferenceField(Candidate)
+    candidate_id = ReferenceField('Candidate')
     resume = FileField()
     national_id_copy = FileField()
     photo = FileField()
