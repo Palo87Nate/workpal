@@ -48,18 +48,18 @@ class BaseModel(Base):
         db.session.delete(self)
         db.session.commit()
 
-class Employee(db.Model):
+class Employee(BaseModel):
     __tablename__ = 'employees'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
 
-class Attendance(db.Model):
+class Attendance(BaseModel):
     employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
     clock_in_time = db.Column(db.DateTime, nullable=True)
     clock_out_time = db.Column(db.DateTime, nullable=True)
 
-class Candidate(db.Model):
+class Candidate(BaseModel):
     __tablename__ = 'candidates'
     
     first_name = db.Column(db.String(100), nullable=False)
