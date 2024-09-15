@@ -77,3 +77,11 @@ class Documents(Document):
     photo = FileField()
     application_letter = FileField()
     degree_copy = FileField()
+
+class Department(BaseModel):
+    __tablename__ = 'departments'
+    name = db.Column(db.String(100), nullable=False)
+    manager_id = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f'<Department {self.name}>'
