@@ -78,3 +78,9 @@ def update_department(id):
 def delete_department(id):
     response, status_code = delete_department_controller(id)
     return jsonify(response), status_code
+
+@api_blueprint.route('/tasks', methods=['POST'])
+def create_task():
+    data = request.get_json()
+    response, status_code = create_task_controller(data)
+    return jsonify(response), status_code
