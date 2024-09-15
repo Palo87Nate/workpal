@@ -132,3 +132,8 @@ def update_department_controller(id, data):
     db.session.commit()
     return {"message": "Department updated successfully!"}, 200
 
+def create_task_controller(data):
+    new_task = Task(task_name=data['task_name'], department_id=data['department_id'], employee_id=data['employee_id'])
+    db.session.add(new_task)
+    db.session.commit()
+    return {"message": "Task created successfully!"}, 201
