@@ -108,3 +108,9 @@ def download_document_controller(doc_id, file_type):
         download_name=f"{file_type}.pdf" if file_type != 'photo' else f"{file_type}.jpeg",
         as_attachment=True
     )
+
+def create_department_controller(data):
+    new_department = Department(name=data['name'], manager_id=data['manager_id'])
+    db.session.add(new_department)
+    db.session.commit()
+    return {"message": "Department created successfully!"}, 201
