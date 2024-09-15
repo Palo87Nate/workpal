@@ -89,3 +89,8 @@ def create_task():
 def get_tasks():
     response, status_code = get_tasks_controller()
     return jsonify(response), status_code
+
+@api_blueprint.route('/tasks/<int:id>', methods=['GET'])
+def get_task(id):
+    response, status_code = get_task_controller(id)
+    return jsonify(response), status_code
