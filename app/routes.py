@@ -51,3 +51,9 @@ def download_document(doc_id, file_type):
     if isinstance(response, dict):  # Handle error messages
         return jsonify(response), 404
     return response
+
+@api_blueprint.route('/departments', methods=['POST'])
+def create_department():
+    data = request.get_json()
+    response, status_code = create_department_controller(data)
+    return jsonify(response), status_code
