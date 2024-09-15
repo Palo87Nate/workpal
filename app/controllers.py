@@ -142,3 +142,8 @@ def get_tasks_controller():
     tasks = Task.query.all()
     result = [{"id": t.id, "task_name": t.task_name, "department_id": t.department_id, "employee_id": t.employee_id} for t in tasks]
     return result, 200
+
+def get_task_controller(id):
+    task = Task.query.get_or_404(id)
+    result = {"id": task.id, "task_name": task.task_name, "department_id": task.department_id, "employee_id": task.employee_id}
+    return result, 200
