@@ -131,3 +131,4 @@ def update_department_controller(id, data):
     department.manager_id = data.get('manager_id', department.manager_id)
     db.session.commit()
     return {"message": "Department updated successfully!"}, 200
+
