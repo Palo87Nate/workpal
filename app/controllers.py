@@ -155,3 +155,9 @@ def update_task_controller(id, data):
     task.employee_id = data.get('employee_id', task.employee_id)
     db.session.commit()
     return {"message": "Task updated successfully!"}, 200
+
+def delete_task_controller(id):
+    task = Task.query.get_or_404(id)
+    db.session.delete(task)
+    db.session.commit()
+    return {"message": "Task deleted successfully!"}, 200
