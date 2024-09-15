@@ -85,3 +85,15 @@ class Department(BaseModel):
 
     def __repr__(self):
         return f'<Department {self.name}>'
+
+class Task(BaseModel):
+    __tablename__ = 'tasks'
+    task_name = db.Column(db.String(100), nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=False)
+    employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable=True)
+    completed = db.Column(db.Boolean, default=False, nullable=False)  # New field for task completion
+
+    department = db.relationship('Department', backref='tasks')
+
+    def __repr__(self):
+        return f'<Task {self.task_name} in Department {self.department_id}>'
