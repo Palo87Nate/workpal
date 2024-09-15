@@ -62,3 +62,8 @@ def create_department():
 def get_departments():
     response, status_code = get_departments_controller()
     return jsonify(response), status_code
+
+@api_blueprint.route('/departments/<int:id>', methods=['GET'])
+def get_department(id):
+    response, status_code = get_department_controller(id)
+    return jsonify(response), status_code
