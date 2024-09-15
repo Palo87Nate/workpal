@@ -114,3 +114,8 @@ def create_department_controller(data):
     db.session.add(new_department)
     db.session.commit()
     return {"message": "Department created successfully!"}, 201
+
+def get_departments_controller():
+    departments = Department.query.all()
+    result = [{"id": d.id, "name": d.name, "manager_id": d.manager_id} for d in departments]
+    return result, 200
