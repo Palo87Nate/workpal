@@ -137,3 +137,8 @@ def create_task_controller(data):
     db.session.add(new_task)
     db.session.commit()
     return {"message": "Task created successfully!"}, 201
+
+def get_tasks_controller():
+    tasks = Task.query.all()
+    result = [{"id": t.id, "task_name": t.task_name, "department_id": t.department_id, "employee_id": t.employee_id} for t in tasks]
+    return result, 200
