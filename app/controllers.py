@@ -124,3 +124,10 @@ def get_department_controller(id):
     department = Department.query.get_or_404(id)
     result = {"id": department.id, "name": department.name, "manager_id": department.manager_id}
     return result, 200
+
+def update_department_controller(id, data):
+    department = Department.query.get_or_404(id)
+    department.name = data.get('name', department.name)
+    department.manager_id = data.get('manager_id', department.manager_id)
+    db.session.commit()
+    return {"message": "Department updated successfully!"}, 200
