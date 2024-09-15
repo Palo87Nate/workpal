@@ -100,3 +100,8 @@ def update_task(id):
     data = request.get_json()
     response, status_code = update_task_controller(id, data)
     return jsonify(response), status_code
+
+@api_blueprint.route('/tasks/<int:id>', methods=['DELETE'])
+def delete_task(id):
+    response, status_code = delete_task_controller(id)
+    return jsonify(response), status_code
