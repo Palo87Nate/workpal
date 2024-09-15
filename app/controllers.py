@@ -147,3 +147,11 @@ def get_task_controller(id):
     task = Task.query.get_or_404(id)
     result = {"id": task.id, "task_name": task.task_name, "department_id": task.department_id, "employee_id": task.employee_id}
     return result, 200
+
+def update_task_controller(id, data):
+    task = Task.query.get_or_404(id)
+    task.task_name = data.get('task_name', task.task_name)
+    task.department_id = data.get('department_id', task.department_id)
+    task.employee_id = data.get('employee_id', task.employee_id)
+    db.session.commit()
+    return {"message": "Task updated successfully!"}, 200
