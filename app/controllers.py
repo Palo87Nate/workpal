@@ -6,6 +6,25 @@ from .extensions import db
 from flask import request, jsonify, send_file
 import io
 
+def add_employee_controller(data):
+    last_name = data['last_name']
+    first_name = data['first_name']
+    department_id = data['department_id']
+    email = data['email']
+    phone_number = data['phone_number']
+
+    # Create and add the employee
+    employee = Employee(last_name=last_name, first_name=first_name, department_id=department_id)
+    db.session.add(employee)
+    db.session.commit()
+
+    # Add the employee's contact information
+    employee_contact = EmployeeContact(email=email, phone_number=phone_number, contact_id=employee.id)
+    db.session.add(employee_contact)
+    db.session.commit()
+
+    return {"message": "Employee and contact information added successfully!"}, 201
+
 def clock_in_employee(employee_id):
     employee = Employee.query.get(employee_id)
     if not employee:
