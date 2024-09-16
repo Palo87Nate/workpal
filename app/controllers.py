@@ -6,7 +6,7 @@ from .extensions import db
 from flask import request, jsonify, send_file
 import io
 
-def add_employee_controller(data):
+def create_employee_controller(data):
     last_name = data['last_name']
     first_name = data['first_name']
     department_id = data['department_id']
@@ -79,7 +79,7 @@ def create_candidate_controller(data):
         
     db.session.add(candidate)
     db.session.commit()
-    
+
     candidate_contact = CandidateContact(
         email=email,
         phone_number=phone_number,

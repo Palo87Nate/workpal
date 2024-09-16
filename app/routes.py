@@ -5,10 +5,10 @@ from .controllers import *
 
 api_blueprint = Blueprint('api', __name__)
 
-@api_blueprint.route('/add_employee', methods=['POST'])
-def add_employee():
+@api_blueprint.route('/create_employee', methods=['POST'])
+def create_employee():
     data = request.get_json()
-    response, status_code = add_employee_controller(data)
+    response, status_code = create_employee_controller(data)
     return jsonify(response), status_code
 
 @api_blueprint.route('/clock-in', methods=['POST'])
