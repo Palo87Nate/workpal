@@ -98,8 +98,7 @@ class Task(BaseModel):
     def __repr__(self):
         return f'<Task {self.task_name} in Department {self.department_id}>'
     
-class Contact(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class Contact(BaseModel):
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
     contact_id = db.Column(db.Integer)  # ID from either Candidate or Employee
