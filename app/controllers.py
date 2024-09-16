@@ -10,11 +10,12 @@ def add_employee_controller(data):
     last_name = data['last_name']
     first_name = data['first_name']
     department_id = data['department_id']
+    role=data['role']
     email = data['email']
     phone_number = data['phone_number']
 
     # Create and add the employee
-    employee = Employee(last_name=last_name, first_name=first_name, department_id=department_id)
+    employee = Employee(last_name=last_name, first_name=first_name, department_id=department_id, role=role)
     db.session.add(employee)
     db.session.commit()
 
