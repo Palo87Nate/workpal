@@ -52,7 +52,9 @@ class Employee(BaseModel):
     __tablename__ = 'employees'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
+    first_name = db.Column(db.String(100), nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
 
 class Attendance(BaseModel):
     employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
