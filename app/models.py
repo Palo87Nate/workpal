@@ -97,3 +97,25 @@ class Task(BaseModel):
 
     def __repr__(self):
         return f'<Task {self.task_name} in Department {self.department_id}>'
+    
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    phone_number = db.Column(db.String(20), nullable=False)
+    contact_id = db.Column(db.Integer)  # ID from either Candidate or Employee
+    contact_class = db.Column(db.String(50))  # Polymorphic identifier
+
+    __mapper_args__ = {
+        'polymorphic_on': contact_class,
+        'polymorphic_identity': 'contact'
+    }
+
+class CandidateContact(Contact):
+    __mapper_args__ = {
+        'polymorphic_identity': 'candidate'
+    }
+
+class EmployeeContact(Contact):
+    __mapper_args__ = {
+        'polymorphic_identity': 'employee'
+    }
