@@ -63,14 +63,32 @@ def get_employee_attendance(employee_id):
     } for record in records]
 
 def create_candidate_controller(data):
+    last_name = data['last_name']
+    first_name = data['first_name']
+    position = data['role']
+    experience = data['experience']
+    email = data['email']
+    phone_number = data['phone_number']
+
     candidate = Candidate(
-        first_name=data['first_name'],
-        last_name=data['last_name'],
-        position=data['position'],
-        experience=data['experience']
+        first_name=first_name,
+        last_name=last_name,
+        position=position,
+        experience=experience
     )
+        
     db.session.add(candidate)
     db.session.commit()
+    
+    candidate_contact = CandidateContact(
+        email=email,
+        phone_number=phone_number,
+        contact_id=candidate.id
+    )
+
+    db.session.add(candidate_contact)
+    db.session.commit()
+
     return {'message': 'Candidate created successfully'}, 201
 
 def get_candidate_controller(id):
