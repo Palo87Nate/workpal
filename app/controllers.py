@@ -139,19 +139,19 @@ def delete_department_controller(id):
     return {"message": "Department deleted successfully!"}, 200
 
 def create_task_controller(data):
-    new_task = Task(task_name=data['task_name'], department_id=data['department_id'], employee_id=data['employee_id'])
+    new_task = Task(task_name=data['task_name'], department_id=data['department_id'], employee_id=data['employee_id'], completed=data.get('completed', False))
     db.session.add(new_task)
     db.session.commit()
     return {"message": "Task created successfully!"}, 201
 
 def get_tasks_controller():
     tasks = Task.query.all()
-    result = [{"id": t.id, "task_name": t.task_name, "department_id": t.department_id, "employee_id": t.employee_id} for t in tasks]
+    result = [{"id": t.id, "task_name": t.task_name, "department_id": t.department_id, "employee_id": t.employee_id, "completed": t.completed} for t in tasks]
     return result, 200
 
 def get_task_controller(id):
     task = Task.query.get_or_404(id)
-    result = {"id": task.id, "task_name": task.task_name, "department_id": task.department_id, "employee_id": task.employee_id}
+    result = {"id": task.id, "task_name": task.task_name, "department_id": task.department_id, "employee_id": task.employee_id, "completed": task.completed}
     return result, 200
 
 def update_task_controller(id, data):
@@ -159,6 +159,7 @@ def update_task_controller(id, data):
     task.task_name = data.get('task_name', task.task_name)
     task.department_id = data.get('department_id', task.department_id)
     task.employee_id = data.get('employee_id', task.employee_id)
+    task.completed = data.get('completed', task.completed)
     db.session.commit()
     return {"message": "Task updated successfully!"}, 200
 
