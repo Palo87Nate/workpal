@@ -40,17 +40,17 @@ def create_employee_controller(data):
 
     return {"message": "Employee and contact information added successfully!"}, 201
 
-def get_employee_tasks(employee_id):
+def get_employee_tasks_controller(employee_id):
     """Returns a list of tasks assigned to an employee"""
     tasks = Task.query.filter_by(employee_id=employee_id).all()
     return tasks
 
-def get_employee_contact(employee_id):
+def get_employee_contact_controller(employee_id):
     """Returns the contact details of an an employee"""
     contact = Contact.query.filter_by(employee_id=employee_id).all()
     return contact
 
-def get_present_employees():
+def get_present_employees_controller():
     """Returns a list of employees who have clocked in today."""
     today = date.today()
     # Get all attendance records where clock_in_time is today
@@ -63,7 +63,7 @@ def get_present_employees():
     employees = Employee.query.filter(Employee.id.in_(employee_ids)).all()
     
     return employees
-def get_absent_employees():
+def get_absent_employees_controller():
     """Returns a list of employees who have not clocked in today."""
     today = date.today()
     
@@ -82,12 +82,12 @@ def get_absent_employees():
     
     return absent_employees
 
-def get_all_employees():
+def get_all_employees_controller():
     """Returns a list of all employees in the company."""
     employees = Employee.query.all()
     return employees
 
-def get_employee_by_id(employee_id):
+def get_employee_controller(employee_id):
     """Returns an employee based on their ID."""
     employee = Employee.query.get(employee_id)
     if not employee:
@@ -95,7 +95,7 @@ def get_employee_by_id(employee_id):
     return employee
 
 # These controllers are part of the time and attendance registry feature
-def clock_in_employee(employee_id):
+def clock_in_employee_controller(employee_id):
     """Clocks in an employee"""
     employee = Employee.query.get(employee_id)
     if not employee:
@@ -108,7 +108,7 @@ def clock_in_employee(employee_id):
 
     return {"message": "Clock-in successful", "clock_in_time": attendance.clock_in_time}
 
-def clock_out_employee(employee_id):
+def clock_out_employee_controller(employee_id):
     # Find the latest clock-in record for this employee
     attendance = Attendance.query.filter_by(employee_id=employee_id, clock_out_time=None).order_by(Attendance.clock_in_time.desc()).first()
 
@@ -121,7 +121,7 @@ def clock_out_employee(employee_id):
 
     return {"message": "Clock-out successful", "clock_out_time": attendance.clock_out_time}
 
-def get_employee_attendance(employee_id):
+def get_employee_attendance_controller(employee_id):
     employee = Employee.query.get(employee_id)
     if not employee:
         return {"error": "Employee not found"}, 404
@@ -174,12 +174,12 @@ def get_candidate_controller(id):
         'experience_years': candidate.experience
     }
 
-def get_employee_contact(candidate_id):
-    """Returns the contact details of an an employee"""
+def get_candidate_contact_controller(candidate_id):
+    """Returns the contact details of a cadidate"""
     contact = Contact.query.filter_by(candidate_id=candidate_id).all()
     return contact
 
-def get_candidates_by_position(position):
+def get_candidates_by_position_controller(position):
     """Returns a list of candidates who applied for a specific position (case-insensitive)."""
     candidates = Candidate.query.filter(func.lower(Candidate.position) == func.lower(position)).all()
     return candidates
@@ -240,12 +240,12 @@ def create_department_controller(data):
     db.session.commit()
     return {"message": "Department created successfully!"}, 201
 
-def get_employees_in_department(department_id):
+def get_department_employees_controller(department_id):
     """Returns a list of employees belonging to a specific department."""
     employees = Employee.query.filter_by(department_id=department_id).all()
     return employees
 
-def get_employees_in_department(department_id):
+def get_department_tasks_controller(department_id):
     """Returns a list of tasks belonging to a specific department."""
     tasks = Task.query.filter_by(department_id=department_id).all()
     return tasks
