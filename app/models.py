@@ -54,11 +54,11 @@ class Employee(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     last_name = db.Column(db.String(100), nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
-    department_id = db.Column(db.Integer, db.ForeignKey('department.id'), nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=False)
     role = db.Column(db.String(100), nullable=False)
 
 class Attendance(BaseModel):
-    employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
+    employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable=False)
     clock_in_time = db.Column(db.DateTime, nullable=True)
     clock_out_time = db.Column(db.DateTime, nullable=True)
 
@@ -84,7 +84,7 @@ class Documents(Document):
 class Department(BaseModel):
     __tablename__ = 'departments'
     name = db.Column(db.String(100), nullable=False)
-    manager_id = db.Column(db.Integer, nullable=False)
+    manager_id = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f'<Department {self.name}>'
