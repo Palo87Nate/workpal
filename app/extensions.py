@@ -8,3 +8,9 @@ from flask_cors import CORS
 db = SQLAlchemy()
 migrate = Migrate()
 cors = CORS()
+
+def init_extensions(app):
+    """Initialize all the Flask extensions with the app instance."""
+    db.init_app(app)
+    migrate.init_app(app, db)
+    cors.init_app(app)
