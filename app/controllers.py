@@ -23,13 +23,12 @@ def create_employee_controller(data):
     """Creates an emloyee and save it to the daabade"""
     last_name = data['last_name']
     first_name = data['first_name']
-    department_id = data['department_id']
     role=data['role']
     email = data['email']
     phone_number = data['phone_number']
 
     # Create and add the employee
-    employee = Employee(last_name=last_name, first_name=first_name, department_id=department_id, role=role)
+    employee = Employee(last_name=last_name, first_name=first_name, role=role)
     db.session.add(employee)
     db.session.commit()
 
@@ -47,40 +46,30 @@ def get_employee_tasks_controller(employee_id):
 
 def get_employee_contact_controller(employee_id):
     """Returns the contact details of an an employee"""
-    contact = Contact.query.filter_by(employee_id=employee_id).all()
+    contact = Contact.query.filter_by(contact_id=employee_id).all()
     return contact
 
-def get_present_employees_controller():
+def get_present_employees_controller(date_str=None):
     """Returns a list of employees who have clocked in today."""
-    today = date.today()
-    # Get all attendance records where clock_in_time is today
+    date_str = date.today() if date_str is None else date_str
     attendance_today = Attendance.query.filter(
-        db.func.date(Attendance.clock_in_time) == today
+        db.func.date(Attendance.clock_in_time) == date_str
     ).all()
-
-    # Get employee details from the attendance records
     employee_ids = [record.employee_id for record in attendance_today]
     employees = Employee.query.filter(Employee.id.in_(employee_ids)).all()
-    
-    return employees
-def get_absent_employees_controller():
+    return jsonify([employee.to_dict() for employee in employees])
+
+def get_absent_employees_controller(date_str=None):
     """Returns a list of employees who have not clocked in today."""
-    today = date.today()
-    
-    # Get all attendance records where clock_in_time is today
+    date_str = date.today() if date_str is None else date_str
     attendance_today = Attendance.query.filter(
-        db.func.date(Attendance.clock_in_time) == today
+        db.func.date(Attendance.clock_in_time) == date_str
     ).all()
-    
-    # Get a list of employee IDs who have clocked in today
     present_employee_ids = [record.employee_id for record in attendance_today]
-    
-    # Get all employees except those who have clocked in
     absent_employees = Employee.query.filter(
         ~Employee.id.in_(present_employee_ids)
     ).all()
-    
-    return absent_employees
+    return jsonify([employee.to_dict() for employee in absent_employees]), 200
 
 def get_all_employees_controller():
     """Returns a list of all employees in the company."""
@@ -106,7 +95,7 @@ def clock_in_employee_controller(employee_id):
     db.session.add(attendance)
     db.session.commit()
 
-    return {"message": "Clock-in successful", "clock_in_time": attendance.clock_in_time}
+    return {"message": "Clock-in successful", "clock_in_time": attendance.clock_in_time}, 200
 
 def clock_out_employee_controller(employee_id):
     # Find the latest clock-in record for this employee
@@ -137,7 +126,7 @@ def create_candidate_controller(data):
     """Creates a candidate for a position and their contact and saves to database"""
     last_name = data['last_name']
     first_name = data['first_name']
-    position = data['role']
+    position = data['position']
     experience = data['experience']
     email = data['email']
     phone_number = data['phone_number']
@@ -170,8 +159,8 @@ def get_candidate_controller(id):
         'id': candidate.id,
         'first_name': candidate.first_name,
         'last_name': candidate.last_name,
-        'role_applied_for': candidate.position,
-        'experience_years': candidate.experience
+        'position': candidate.position,
+        'experience': candidate.experience
     }
 
 def get_candidate_contact_controller(candidate_id):

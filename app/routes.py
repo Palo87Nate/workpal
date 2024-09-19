@@ -12,27 +12,27 @@ def create_employee():
     response, status_code = create_employee_controller(data)
     return jsonify(response), status_code
 
-@api_blueprint.route('/tasks/<int:employee_id>', method=['GET'])
+@api_blueprint.route('/tasks/<int:employee_id>', methods=['GET'])
 def get_employee_tasks(employee_id):
     response, status_code = get_employee_tasks_controller(employee_id)
     return jsonify(response), status_code
 
-@api_blueprint.route('/employees/<int:employee_id>/contact', method=['GET'])
+@api_blueprint.route('/employees/<int:employee_id>/contact', methods=['GET'])
 def get_employee_contact(employee_id):
     response, status_code = get_employee_contact_controller(employee_id)
     return jsonify(response), status_code
 
-@api_blueprint.route('/presence/<string:date_str>', method=['GET'])
+@api_blueprint.route('/presence/<string:date_str>', methods=['GET'])
 def get_present_employees(date_str):
     response, status_code = get_present_employees_controller(date_str)
     return jsonify(response), status_code
 
-@api_blueprint.route('/absence/<string:date_str>', method=['GET'])
+@api_blueprint.route('/absence/<string:date_str>', methods=['GET'])
 def get_absent_employees(date_str):
     response, status_code = get_absent_employees_controller(date_str)
     return jsonify(response), status_code
 
-@api_blueprint.route('employees/all', methods=['GET'])
+@api_blueprint.route('/employees/all', methods=['GET'])
 def get_all_employees():
     response, status_code = get_all_employees_controller()
     return jsonify(response), status_code

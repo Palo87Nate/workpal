@@ -54,7 +54,7 @@ class Employee(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     last_name = db.Column(db.String(100), nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
-    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=True)
     role = db.Column(db.String(100), nullable=False)
 
 class Attendance(BaseModel):
