@@ -5,7 +5,7 @@ from .config import Config
 from .extensions import db
 from .routes import api_blueprint
 
-def create_app():
+def create_app(config=None):
     app = Flask(__name__)
     app.config.from_object(Config)
     
