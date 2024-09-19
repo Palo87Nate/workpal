@@ -57,6 +57,14 @@ class Employee(BaseModel):
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=True)
     role = db.Column(db.String(100), nullable=False)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "last_name": self.last_name,
+            "first_name": self.first_name,
+            "position": self.role
+        }
+
 class Attendance(BaseModel):
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable=False)
     clock_in_time = db.Column(db.DateTime, nullable=True)
@@ -70,8 +78,13 @@ class Candidate(BaseModel):
     position = db.Column(db.String(100), nullable=False)
     experience = db.Column(db.Float, nullable=False)
 
-# MongoEngine Setup
-connect('files_db')
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "last_name": self.last_name,
+            "first_name": self.first_name,
+            "position": self.position
+        }
 
 class Documents(Document):
     candidate_id = ReferenceField('Candidate')
@@ -101,6 +114,14 @@ class Task(BaseModel):
     def __repr__(self):
         return f'<Task {self.task_name} in Department {self.department_id}>'
     
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "task": self.task_name,
+            "employee_id": self.employee_id,
+            "completion": self.completed
+        }
+    
 class Contact(BaseModel):
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone_number = db.Column(db.String(20), nullable=False)
@@ -111,6 +132,15 @@ class Contact(BaseModel):
         'polymorphic_on': contact_class,
         'polymorphic_identity': 'contact'
     }
+
+    def to_dict(self):
+        """Serialize the Contact object into a JSON-friendly dictionary."""
+        return {
+            "email": self.email,
+            "phone_number": self.phone_number,
+            "contact_id": self.contact_id,
+            "contact_class": self.contact_class
+        }
 
 class CandidateContact(Contact):
     __mapper_args__ = {
