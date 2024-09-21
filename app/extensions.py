@@ -9,14 +9,13 @@ from mongoengine import connect
 db = SQLAlchemy()
 migrate = Migrate()
 cors = CORS()
-mongo = connect
 
 def init_extensions(app):
     """Initialize all the Flask extensions with the app instance."""
     db.init_app(app)
     migrate.init_app(app, db)
     cors.init_app(app)
-    mongo(
+    connect(
         db=app.config['MONGODB_SETTINGS']['db'],
         host=app.config['MONGODB_SETTINGS']['host'],
         port=app.config['MONGODB_SETTINGS']['port']

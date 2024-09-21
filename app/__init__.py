@@ -6,6 +6,7 @@ from .extensions import init_extensions
 from .extensions import db
 from .routes import api_blueprint
 from .models import *
+from .mdb_models import *
 
 def create_app(config=None):
     app = Flask(__name__)

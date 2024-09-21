@@ -10,10 +10,15 @@
 
 from datetime import datetime
 from .models import *
+from .mdb_models import *
 from .extensions import db
-from flask import request, jsonify, send_file
+from flask import request, jsonify, send_file, send_file
 from datetime import datetime, date
 from sqlalchemy import func
+from werkzeug.exceptions import BadRequest
+from mongoengine import DoesNotExist
+import zipfile
+from io import BytesIO
 import io
 
 
@@ -240,51 +245,79 @@ def get_candidates_by_position_controller(position):
 
 def upload_documents_controller(candidate_id):
     """Uploads documents for a candidate"""
+    
+    # Ensure candidate exists (using SQLAlchemy)
     candidate = Candidate.query.get_or_404(candidate_id)
+
+    # Create a Documents entry for the candidate
     documents = Documents(candidate_id=candidate.id)
+    uploaded_files = []
 
-    if 'resume' in request.files:
-        documents.resume.put(request.files['resume'], content_type='application/docx')
+    # Check and upload each file if present in request
+    try:
+        if 'resume' in request.files:
+            documents.resume.put(request.files['resume'], filename='resume')
+            uploaded_files.append('resume')
 
-    if 'national_id_copy' in request.files:
-        documents.national_id_copy.put(request.files['national_id_copy'], content_type='image/jpeg')
+        if 'national_id_copy' in request.files:
+            documents.national_id_copy.put(request.files['national_id_copy'], filename='national_id_copy')
+            uploaded_files.append('national_id_copy')
 
-    if 'photo' in request.files:
-        documents.photo.put(request.files['photo'], content_type='image/jpeg')
+        if 'photo' in request.files:
+            documents.photo.put(request.files['photo'], filename='photo')
+            uploaded_files.append('photo')
 
-    if 'application_letter' in request.files:
-        documents.application_letter.put(request.files['application_letter'], content_type='application/docx')
+        if 'application_letter' in request.files:
+            documents.application_letter.put(request.files['application_letter'], filename='application_letter')
+            uploaded_files.append('application_letter')
 
-    if 'degree_copy' in request.files:
-        documents.degree_copy.put(request.files['degree_copy'], content_type='application/docx')
+        if 'degree_copy' in request.files:
+            documents.degree_copy.put(request.files['degree_copy'], filename='degree_copy')
+            uploaded_files.append('degree_copy')
 
-    documents.save()
-    return {'message': 'Documents uploaded successfully'}, 201
+        # Save all uploaded files at once
+        documents.save()
 
-def download_document_controller(doc_id, file_type):
-    """Downloads a document"""
-    documents = Documents.objects.get(id=doc_id)
+    except Exception as e:
+        # Handle file upload errors
+        raise BadRequest(f"File upload failed: {str(e)}")
+    
+    print(request.files)
 
-    file_data = None
-    if file_type == 'resume':
-        file_data = documents.resume
-    elif file_type == 'national_id_copy':
-        file_data = documents.national_id_copy
-    elif file_type == 'photo':
-        file_data = documents.photo
-    elif file_type == 'application_letter':
-        file_data = documents.application_letter
-    elif file_type == 'degree_copy':
-        file_data = documents.degree_copy
+    return {'message': 'Documents uploaded successfully', 'uploaded_files': uploaded_files}, 201
 
-    if not file_data:
-        return {'message': 'File not found'}, 404
+def download_documents_controller(candidate_id):
+    """Downloads all documents for a specific candidate in a zip file"""
 
-    return send_file(
-        io.BytesIO(file_data.read()),
-        download_name=f"{file_type}.pdf" if file_type != 'photo' else f"{file_type}.jpeg",
-        as_attachment=True
-    )
+    try:
+        # Fetch the candidate's documents
+        documents = Documents.objects.get(candidate_id=candidate_id)
+
+        # Create a Zip file in memory
+        memory_file = BytesIO()
+        with zipfile.ZipFile(memory_file, 'w') as zf:
+            # Add each file to the zip archive if it exists
+            if documents.resume:
+                zf.writestr('resume.pdf', documents.resume.read())
+            if documents.national_id_copy:
+                zf.writestr('national_id_copy.pdf', documents.national_id_copy.read())
+            if documents.photo:
+                zf.writestr('photo.jpeg', documents.photo.read())  # assuming jpeg, update as needed
+            if documents.application_letter:
+                zf.writestr('application_letter.pdf', documents.application_letter.read())
+            if documents.degree_copy:
+                zf.writestr('degree_copy.pdf', documents.degree_copy.read())
+
+        # Set the pointer to the beginning of the BytesIO object
+        memory_file.seek(0)
+
+        # Send the zip file as a downloadable response
+        return send_file(memory_file, download_name='candidate_documents.zip', as_attachment=True)
+
+    except DoesNotExist:
+        return {'message': f'Documents not found for candidate_id: {candidate_id}'}, 404
+    except Exception as e:
+        return {'message': f'Error downloading files: {str(e)}'}, 500
 
 # These controllers ar part of the Departments management feature
 def create_department_controller(data):

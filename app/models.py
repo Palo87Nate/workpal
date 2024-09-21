@@ -3,7 +3,6 @@
 from datetime import datetime
 import uuid
 from .extensions import db
-from mongoengine import Document, ReferenceField, FileField, connect
 
 Base = db.Model
 class BaseModel(Base):
@@ -85,14 +84,6 @@ class Candidate(BaseModel):
             "first_name": self.first_name,
             "position": self.position
         }
-
-class Documents(Document):
-    candidate_id = ReferenceField('Candidate')
-    resume = FileField()
-    national_id_copy = FileField()
-    photo = FileField()
-    application_letter = FileField()
-    degree_copy = FileField()
 
 class Department(BaseModel):
     __tablename__ = 'departments'

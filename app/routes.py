@@ -93,14 +93,14 @@ def get_candidates_by_position(position):
     response = get_candidates_by_position_controller(position)
     return jsonify(response)
 
-@api_blueprint.route('/documents/upload/<string:candidate_id>', methods=['POST'])
+@api_blueprint.route('/candidates/<string:candidate_id>/documents', methods=['POST'])
 def upload_documents(candidate_id):
     response, status_code = upload_documents_controller(candidate_id)
     return jsonify(response), status_code
 
-@api_blueprint.route('/documents/<string:doc_id>/<string:file_type>', methods=['GET'])
-def download_document(doc_id, file_type):
-    response = download_document_controller(doc_id, file_type)
+@api_blueprint.route('/candidates/<string:candidate_id>/documents', methods=['GET'])
+def download_document(candidate_id):
+    response = download_documents_controller(candidate_id)
     if isinstance(response, dict):  # Handle error messages
         return jsonify(response), 404
     return response
