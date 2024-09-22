@@ -53,6 +53,7 @@ It is worth noting that the method used in a request is as important as the requ
 #### API Endpoints
 
 1. /employees/new
+  
   Methods: POST
   
   Description: Creates a new employee in the database.
@@ -67,27 +68,39 @@ It is worth noting that the method used in a request is as important as the requ
 
 
 2. /employees/<employee_id>
+  
   Methods: GET, PUT
+  
   Description: Retireves or Updates an employee from the database.
+  
   Request Body:
   - employee_id (int)
   - department_id (string)  <!-- To update the department id with PUT method -->
 
 3. /employees/<employee_id>/tasks
+  
   Methods: GET
+  
   Description: Retrieves all tasks assigned to an employee.
+  
   Request Body:
   - employee_id (int)
 
 4. /employees/<employee_id>/contact
+  
   Methods: GET
+  
   Description: Retrieves contact information for an employee.
+  
   Request Body:
   - employee_id (int)
 
 5. /employees/all
+  
   Methods: GET
+  
   Description: Retrieves all employees in the database.
+  
   Request Body: None
 
 ### Time and Attendance Tracking
@@ -99,32 +112,47 @@ It is worth noting that the method used in a request is as important as the requ
 #### API Endpoints
 
 6. /clock-in
+  
   Methods: POST
+  
   Description: Clocks in an employee.
+  
   Request Body:
   - employee_id (int)
 
 7. /clock-out
+  
   Methods: POST
+  
   Description: Clocks out an employee.
+  
   Request Body:
   - employee_id (int)
 
 8. /attendance/<employee_id>
+  
   Methods: GET
+  
   Description: Retrieves attendance information for an employee.
+  
   Request Body:
   - employee_id (int)
 
 9. /presence/<date_str>
+  
   Methods: GET
+  
   Description: Retrieves a list of employees present on a given date.
+  
   Request Body:
   - date_str (str)
 
 10. /absence/<date_str>
+  
   Methods: GET
+  
   Description: Retrieves a list of employees absent on a given date.
+  
   Request Body:
   - date_str (str)
 
@@ -139,8 +167,11 @@ It is worth noting that the method used in a request is as important as the requ
 #### API Endpoints
 
 11. /candidates/new
+  
   Methods: POST
+  
   Description: Creates a new candidate applying for employment.
+  
   Request Body:
   - last_name (str)
   - first_name (str)
@@ -151,26 +182,38 @@ It is worth noting that the method used in a request is as important as the requ
   - phone_number (str)
 
 12. /candidates/<candidate_id>
+  
   Methods: GET
+  
   Description: Retrieves information about a candidate.
+  
   Request Body:
   - candidate_id (float)
 
 13. /candidates/<candidate_id>/contact
+  
   Methods: GET
+  
   Description: Retrieves contact information for a candidate.
+  
   Request Body:
   - candidate_id (float)
 
 14. /candidates/post/<position>
+  
   Methods: GET
+  
   Description: Retrieves candidates applying for a specific position.
+  
   Request Body:
   - position (str)
 
 15. /candidates/<candidate_id>/documents
+  
   Methods: POST, GET
+  
   Description: Uploads or retrieves documents for a candidate.
+  
   Request Body:
   - candidate_id (float)
 
@@ -183,31 +226,46 @@ It is worth noting that the method used in a request is as important as the requ
 #### API Endpoints
 
 16. /departments/new
+  
   Methods: POST
+  
   Description: Creates a new department.
+  
   Request Body:
   - department_name (str)
 
 17. /departments/<department_id>/employees
+  
   Methods: GET
+  
   Description: Retrieves employees working in a specific department.
+  
   Request Body:
   - department_id (float)
 
 18. /departments/<department_id>/tasks
+  
   Methods: GET
+  
   Description: Retrieves tasks assigned to employees in a specific department.
+  
   Request Body:
   - department_id (float)
 
 19. /departments/all
+  
   Methods: GET
+  
   Description: Retrieves all departments.
+  
   Request Body: None
 
 20. /departments/<department_id>
+  
   Methods: GET, PUT, DELETE
+  
   Description: Retrieves, updates, or deletes a department.
+  
   Request Body:
   - department_id (float)
   - manager_id (float) <!-- to update the department manager with PUT method -->
@@ -219,8 +277,11 @@ It is worth noting that the method used in a request is as important as the requ
 #### API Endpoints
 
 21. /tasks/new
+  
   Methods: POST
+  
   Description: Creates a new task.
+  
   Request Body:
   - task_name (str)
   - department_id (str)
@@ -228,13 +289,19 @@ It is worth noting that the method used in a request is as important as the requ
   - completed (bool)
 
 22. /tasks/all
+  
   Methods: GET
+  
   Description: Retrieves all tasks.
+  
   Request Body: None
 
 23. /tasks/<task_id> 
+  
   Methods: GET, PUT, DELETE
+  
   Description: Retrieves, updates, or deletes a task.
+  
   Request Body:
   - task_id (int)
   - completed (bool) <!-- to update the task complete status with PUT method -->
