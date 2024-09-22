@@ -54,7 +54,9 @@ It is worth noting that the method used in a request is as important as the requ
 
 1. /employees/new
   Methods: POST
+  
   Description: Creates a new employee in the database.
+  
   Request Body:
   - last_name (str)
   - first_name (str)
