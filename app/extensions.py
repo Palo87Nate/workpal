@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+# Flask extensions are loaded and initialised into the application from here
+
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS

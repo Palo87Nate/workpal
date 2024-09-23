@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# This file contains the routes or api endpoints defined in the application
+
 from flask import Blueprint, request, jsonify
 from .controllers import *
 
@@ -101,7 +103,7 @@ def upload_documents(candidate_id):
 @api_blueprint.route('/candidates/<string:candidate_id>/documents', methods=['GET'])
 def download_document(candidate_id):
     response = download_documents_controller(candidate_id)
-    if isinstance(response, dict):  # Handle error messages
+    if isinstance(response, dict):
         return jsonify(response), 404
     return response
 

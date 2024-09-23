@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# This file contains all the SQLAlchemy models used in the application
+
 from datetime import datetime
 import uuid
 from .extensions import db
@@ -98,7 +100,7 @@ class Task(BaseModel):
     task_name = db.Column(db.String(100), nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=False)
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable=True)
-    completed = db.Column(db.Boolean, default=False, nullable=False)  # New field for task completion
+    completed = db.Column(db.Boolean, default=False, nullable=False)
 
     department = db.relationship('Department', backref='tasks')
 

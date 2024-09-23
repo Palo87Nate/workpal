@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+# This is the initialisation file for the application
+# It starts the app instance with the configuration
+# It also initialises app extensions and database tables
+
 from flask import Flask
 from .config import Config
 from .extensions import init_extensions
